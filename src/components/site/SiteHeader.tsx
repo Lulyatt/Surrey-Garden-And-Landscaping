@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { business } from "@/content/site";
 import { Logo } from "./Logo";
@@ -15,8 +16,15 @@ const nav = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   return (
@@ -61,27 +69,43 @@ export function SiteHeader() {
           </button>
         </div>
       </div>
-      {open && (
-        <div id="mobile-nav" className="fixed inset-x-0 bottom-0 top-[72px] z-40 overflow-y-auto bg-background lg:hidden md:top-[108px]">
-          <nav className="container-site flex flex-col py-6" aria-label="Mobile">
-            {nav.map((n) => (
-              <Link
-                key={n.to}
-                to={n.to}
-                onClick={() => setOpen(false)}
-                activeOptions={{ exact: n.to === "/" }}
-                className="border-b border-border py-4 font-serif text-2xl text-primary-deep data-[status=active]:text-accent"
-              >
-                {n.label}
-              </Link>
-            ))}
-            <div className="mt-8 grid gap-3">
-              <Button asChild variant="cta" size="xl"><Link to="/quote" onClick={() => setOpen(false)}>Request a free quote</Link></Button>
-              <Button asChild variant="line" size="xl"><a href={business.phoneHref}><Phone className="h-4 w-4" /> Call {business.phone}</a></Button>
-            </div>
-          </nav>
-        </div>
-      )}
+      {open &&
+        mounted &&
+        createPortal(
+          <div
+            id="mobile-nav"
+            role="dialog"
+            aria-modal="true"
+            className="fixed inset-x-0 bottom-0 top-[72px] z-[100] overflow-y-auto border-t border-border bg-background lg:hidden md:top-[108px]"
+          >
+            <nav className="container-site flex flex-col py-6" aria-label="Mobile">
+              {nav.map((n) => (
+                <Link
+                  key={n.to}
+                  to={n.to}
+                  onClick={() => setOpen(false)}
+                  activeOptions={{ exact: n.to === "/" }}
+                  className="border-b border-border py-4 font-serif text-2xl text-primary-deep data-[status=active]:text-accent"
+                >
+                  {n.label}
+                </Link>
+              ))}
+              <div className="mt-8 grid gap-3">
+                <Button asChild variant="cta" size="xl">
+                  <Link to="/quote" onClick={() => setOpen(false)}>
+                    Request a free quote
+                  </Link>
+                </Button>
+                <Button asChild variant="line" size="xl">
+                  <a href={business.phoneHref}>
+                    <Phone className="h-4 w-4" /> Call {business.phone}
+                  </a>
+                </Button>
+              </div>
+            </nav>
+          </div>,
+          document.body,
+        )}
     </header>
   );
 }
