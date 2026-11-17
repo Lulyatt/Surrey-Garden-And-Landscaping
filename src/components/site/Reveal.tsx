@@ -8,7 +8,7 @@ export function Reveal({ children, className, delay = 0 }: { children: ReactNode
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setVisible(true); io.disconnect(); } },
+      ([e]) => { if (e?.isIntersecting) { setVisible(true); io.disconnect(); } },
       { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
     );
     io.observe(el);

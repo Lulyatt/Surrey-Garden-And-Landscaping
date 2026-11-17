@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 export const inputCls =
   "w-full rounded-sm border border-input bg-card px-4 py-3 text-base text-foreground placeholder:text-muted-foreground/70 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/30 aria-[invalid=true]:border-destructive";
 
-export function Field({ id, label, optional, error, hint, children }: { id: string; label: string; optional?: boolean; error?: string; hint?: string; children: ReactNode }) {
+export function Field({ id, label, optional, error, hint, children }: { id: string; label: string; optional?: boolean; error?: string | undefined; hint?: string | undefined; children: ReactNode }) {
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 flex items-baseline justify-between text-sm font-bold text-primary-deep">
