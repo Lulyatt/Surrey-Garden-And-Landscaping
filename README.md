@@ -100,6 +100,10 @@ To change wording, services, or portfolio items for local development, edit `src
 
 Run `npm run build` and deploy the build output using whatever host supports your TanStack Start / Nitro target. The Vite config is managed by `@lovable.dev/vite-tanstack-config`; avoid duplicate Vite plugins documented in `vite.config.ts` and `AGENTS.md`.
 
+### Netlify
+
+[`netlify.toml`](netlify.toml) sets **publish** to `.output/public` (not `dist/client`). On Netlify, remove duplicate build/publish overrides in the site UI if they conflict, or let the repo config take precedence. The build also generates SSR handlers under `.netlify/functions-internal/` for TanStack Start.
+
 ## Lovable sync
 
 To keep using the Lovable editor for this repo:
