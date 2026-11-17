@@ -102,7 +102,7 @@ Run `npm run build` and deploy the build output using whatever host supports you
 
 ### Netlify
 
-[`netlify.toml`](netlify.toml) sets **publish** to `.output/public` (not `dist/client`). On Netlify, remove duplicate build/publish overrides in the site UI if they conflict, or let the repo config take precedence. The build also generates SSR handlers under `.netlify/functions-internal/` for TanStack Start.
+[`netlify.toml`](netlify.toml) sets **publish** to `dist` when Nitro uses the Netlify preset (static assets are not in `.output/public` or `dist/client` on CI). Remove duplicate build/publish overrides in the site UI if they conflict. SSR handlers are emitted under `.netlify/functions-internal/` during the build.
 
 ## Lovable sync
 

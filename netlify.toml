@@ -1,5 +1,5 @@
-# TanStack Start (Nitro) emits static assets to `.output/public`, not `dist/client`.
-# SSR is handled via Netlify Functions (`.netlify/functions-internal/`) during `npm run build`.
+# On Netlify, TanStack Start auto-selects Nitro's `netlify` preset and writes
+# static assets to `dist`. SSR bundles go to `.netlify/functions-internal/`.
 [build]
   command = "npm run build"
-  publish = ".output/public"
+  publish = "dist"
